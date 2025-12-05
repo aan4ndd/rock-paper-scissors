@@ -1,62 +1,107 @@
 
 let computerChoice;
 let humanChoice;
-let humanScore;
-let computerScore;
+let humanScore = 0;
+let computerScore = 0;
 
+let rock = document.getElementById("rock");
+let paper = document.getElementById("paper");
+let scissors = document.getElementById("scissors");
+
+let result = document.querySelector('.result');
+let currentScore = document.querySelector('.score');
 
 function getComputerChoice(){
     const choices = ["rock", "paper", "scissors"];
     let randomIndex = Math.floor(Math.random() * choices.length);
      computerChoice = choices[randomIndex];
-}
-
-function getHumanChoice(){
-     humanChoice = prompt("Enter your choice :");
+     return computerChoice;
 }
 
 
+  rock.addEventListener('click', () =>{
+        const humanSelection = "rock";result
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        checkWinner(humanScore, computerScore);
 
-function playGame(){
-    humanScore = 0;
-    computerScore = 0;
-    for(round = 1; round <= 5; round++){
-        function playRound(humanSelection, computerSelection){
-        if(humanChoice == computerChoice){
+    })
+    paper.addEventListener('click', () =>{
+        const humanSelection = "paper";
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        checkWinner(humanScore, computerScore);
+
+    })
+    scissors.addEventListener('click', () =>{
+        const humanSelection = "scissors";
+        const computerSelection = getComputerChoice();
+        playRound(humanSelection, computerSelection);
+        checkWinner(humanScore, computerScore);
+
+    })
+
+
+     let displayHumanScore = document.createElement("h2");
+     let displayComputerScore = document.createElement("h2");
+
+     displayHumanScore.textContent = `You: ${humanScore}`;
+     displayComputerScore.textContent = `Computer: ${computerScore}`;
+     
+      currentScore.appendChild(displayHumanScore);
+      currentScore.appendChild(displayComputerScore);
+
+     function playRound(humanSelection, computerSelection){
+        let p = document.createElement("p");
+
+
+        if(humanSelection == computerSelection){
   
-         return console.log("Draw")
-        }
+        p.textContent = "Its a Draw" ;
+         }
         else if(
-            (humanChoice == "rock" && computerChoice == "scissors")||
-            (humanChoice == "paper" && computerChoice == "rock")||
-            (humanChoice == "scissors" && computerChoice == "paper")
+            (humanSelection == "rock" && computerSelection == "scissors")||
+            (humanSelection == "paper" && computerSelection == "rock")||
+            (humanSelection == "scissors" && computerSelection   == "paper")
         ){
             humanScore++;
-            return console.log("Win");
+            p.textContent = "Win";
             
 
 
         }
         else{
             computerScore++;
-            return console.log("Lose");
+            p.textContent = "Lose";
             
-
+            
         } 
+        
+        result.appendChild(p); 
+       
+     displayHumanScore.textContent = `You: ${humanScore}`;
+     displayComputerScore.textContent = `Computer: ${computerScore}`;    
+    }
 
-     }
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+    const checkWinner = (humanScore, computerScore) => {
+        let finalResult = document.createElement("h1");
+        if(humanScore === 5 ){
+            finalResult.textContent = "YOU ARE THE WINNER";
+            result.appendChild(finalResult);
+            endGame();
+        }
+        if(computerScore === 5 ){
+            finalResult.textContent = "YOU LOST";
+            result.appendChild(finalResult);
+            endGame();
+        }
+    }
 
+     
+    function endGame(){
+        rock.disabled = true;
+        paper.disabled = true;
+        scissors.disabled = true;
 
-playRound(humanSelection, computerSelection);
- }
-}
+    }
 
-playGame();
-if(humanScore > computerScore){
-    console.log(`You Won ${humanScore} out of 5 Rounds!`);
-}
-else{
-    console.log(`You lost`);
-}
